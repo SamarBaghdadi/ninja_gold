@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Index</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='css/bootstrap.css') }}"
+    />
+  </head>
+  <body>
+    <h1>hello there you are in the landing page</h1>
+    <form>
+      <div class="form-group row">
+        <label for="inputEmail3" class="col-sm-2 col-form-label"
+          >Your Gold</label
+        >
+        <div class="col-sm-10">
+          <input
+            type="text"
+            class="form-control"
+            id="inputEmail3"
+            placeholder="0"
+            name="total_gold"
+            value="{{session['your_gold']}}"
+          />
+          <label for="inputEmail3" class="col-sm-2 col-form-label"
+            >You used {{session['moves']}} moves out of 15</label
+          >
+        </div>
+      </div>
+    </form>
+
+    <form action="/reset" method="post">
+      {%if session['finished']=="True" or session['has_won']=="True": %}
+      <button type="submit" class="btn btn-danger">Reset</button>
+      {%endif%}
+    </form>
+    <label for="">{{session['finished']}}</label>
+    <label for="">{{session['has_won']}}</label>
+
+    <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Farm</h5>
+            <p class="card-text">(Earn 10-20 golds)</p>
+            <form action="/submit" method="post">
+              <button type="submit" class="btn btn-success">Find Gold!</button>
+              <input type="hidden" name="source" value="farm" />
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+      <div class="col-sm-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Cave</h5>
+            <p class="card-text">(Earn 5-10 golds)</p>
+            <form action="/submit" method="post">
+              <button type="submit" class="btn btn-dark">Find Gold!</button>
+              <input type="hidden" name="source" value="cave" />
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">House</h5>
+            <p class="card-text">(Earn 2-5 golds)</p>
+            <form action="/submit" method="post">
+              <button type="submit" class="btn btn-warning">Find Gold</button>
+              <input type="hidden" name="source" value="house" />
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Casino</h5>
+            <p class="card-text">(Earn/takes 0-50 golds)</p>
+            <form action="/submit" method="post">
+              <button type="submit" class="btn btn-danger">Find Gold!</button>
+              <input type="hidden" name="source" value="casino" />
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="card overflow-auto">
+        <!-- <h1>{{session['log']}}</h1> -->
+        {%for i in session['log']:%} {%set my_index=session['log'].index(i)%}
+        {%if session['win'][my_index]=="True"%}
+        <label class="vert">{{i}}</label>
+        {%else%}
+        <label class="red">{{i}}</label>
+        {%endif%} {%endfor%}
+      </div>
+    </div>
+  </body>
+</html>
